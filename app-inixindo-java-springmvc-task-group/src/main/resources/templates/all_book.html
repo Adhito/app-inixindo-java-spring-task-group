@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Book List</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+	integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+	crossorigin="anonymous">
+</head>
+<body>
+	<a href="book/new"><button type="button" class="btn btn-success">New
+			Book</button></a>
+	<table class="table">
+		<thead>
+			<tr>
+				<th scope="col">#</th>
+				<th scope="col">Publisher Name</th>
+				<th scope="col">Book Title</th>
+				<th scope="col">Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="books : ${listBooks}">
+				<td th:text="${books.BookID}">Book ID</td>
+				<td th:text="${books.PublisherName}">Publisher Name</td>
+				<td th:text="${books.title}">Book Title</td>
+				<td><a th:href="@{'/edit_book/' + ${books.BookID}}"
+					class="btn btn-success">Update</a> <a
+					th:href="@{'/delete_book/' + ${books.BookID}}"
+					class="btn btn-danger">Delete</a></td>
+
+			</tr>
+		</tbody>
+	</table>
+
+</body>
+</html>
