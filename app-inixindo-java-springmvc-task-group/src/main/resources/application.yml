@@ -6,10 +6,11 @@ spring:
       prefix: /views/
       suffix: .jsp
   datasource:
-    url: jdbc:mysql://sumitra.iixcp.rumahweb.com:2083/
-#    url: jdbc:mysql://192.168.3.106:3306/bagusdb
-    username: jeib7663
-    password: 7GHtBGXDrUtd81
+    url: jdbc:mysql://127.0.0.1:3306/library
+#    username: jeib7663
+#    password: 7GHtBGXDrUtd81
+    username: root
+    password: 
     driverClassName: com.mysql.cj.jdbc.Driver
   jpa:
     hibernate:
