@@ -1,4 +1,4 @@
-package com.inixindo.entity;
+package com.inixindo.library.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,7 +13,7 @@ import lombok.Data;
 public class Books {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int BookID;
+	private Long BookID;
 	@Column( nullable = false)
 	private String title;
 	@Column( nullable = false)

@@ -1,4 +1,4 @@
-package com.inixindo.entity;
+package com.inixindo.library.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,11 +9,11 @@ import javax.persistence.Id;
 import lombok.Data;
 
 @Data
-@Entity(name = "borrower")
-public class Borrower {
+@Entity(name = "publisher")
+public class Publisher {
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)	
-	private int cardNo;
+	@GeneratedValue(strategy= GenerationType.IDENTITY)
+	private Long PublisherID;
 	@Column(nullable = false)
 	private String Name;
 	@Column(nullable = false)
