@@ -6,13 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 //import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-<<<<<<< Updated upstream
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-=======
 import org.springframework.web.bind.annotation.GetMapping;
->>>>>>> Stashed changes
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,7 +24,6 @@ public class AppController {
 	@Autowired
 	BookService bookService;
 
-<<<<<<< Updated upstream
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
 
