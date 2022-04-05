@@ -8,4 +8,5 @@ import com.inixindo.library.model.Borrower;
 
 public interface BorrowerRepository extends JpaRepository<Borrower, Integer>{
 	//List<Borrower> listAll();
+	Borrower findByUsername(String username);
 }

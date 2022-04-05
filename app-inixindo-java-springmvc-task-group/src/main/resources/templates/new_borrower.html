@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<title>Register New Member</title>
+<link rel="stylesheet"
+	href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+	integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div align="center">
+		<h1>Register New Member</h1>
+		<br>
+		
+		<form class="form-control" th:action="@{/save_borrower}" th:object="${borrower}"
+			method="post">
+			<div class="form-group" >
+				<label>User name:</label> <input type="text"
+					placeholder="enter email" th:field="*{username}" required/>
+			</div>
+			<br>
+			<div class="form-group" >
+				<label>Password:</label> <input type="password"
+					th:field="*{password}" placeholder="enter password" required/>
+			</div>
+			<br>
+			<div class="form-group" >
+				<label>Name:</label> <input type="text"
+					th:field="*{name}" placeholder="enter name" required/>
+			</div>
+			<br>
+			<div class="form-group" >
+				<label>Phone:</label> <input type="tel" th:field="*{phone}"
+					placeholder="enter phone number" required/>
+			</div>
+				<input type="hidden" name="Role" value="BORROWER" />
+			<div>
+				<label>Address:</label> <input type="text" th:field="*{address}"
+					placeholder="enter address" />
+			</div>
+			<br>
+			
+			<br> <br> <br> <input type="submit" value="Submit" />
+		</form>
+	</div>
+
+</body>
+</html>

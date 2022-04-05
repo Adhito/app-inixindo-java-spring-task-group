@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -16,9 +17,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.inixindo.library.model.Authors;
 import com.inixindo.library.model.Books;
+import com.inixindo.library.model.Borrower;
 import com.inixindo.library.model.Publisher;
 import com.inixindo.library.services.AuthorService;
 import com.inixindo.library.services.BookService;
+import com.inixindo.library.services.BorrowerService;
 import com.inixindo.library.services.PublisherService;
 
 
@@ -31,12 +34,20 @@ public class AppController {
 	PublisherService publisherService;
 	@Autowired
 	AuthorService authorService;
+	@Autowired
+	BorrowerService borrowerService;
 
-	@RequestMapping("/")
-	public String viewHomePage(Model model) {
-
-		return "index";
+	@GetMapping("/login")
+	public String login(Model model) {
+		model.addAttribute("borrower", new Borrower());
+		return "login";
 	}
+	
+	@PostMapping("/login")
+	public String masuk() {
+		return "login";
+	}
+	
 
 	@RequestMapping("/book")
 	public String getBookPage(Model model) {
@@ -111,5 +122,23 @@ public class AppController {
 		mav.addObject("publishers", listPublishers);
 		mav.addObject("authors", listAuthors);
 		return mav;
+	}
+	
+	@RequestMapping("/register")
+	public String newBorrowerPage(Model model) {
+		Borrower borrower = new Borrower();
+		model.addAttribute("borrower", borrower);
+		return "new_borrower";
+	}
+	
+	@RequestMapping(value = "/save_borrower", method = RequestMethod.POST)
+	public String saveProduct(@ModelAttribute("borrower") Borrower borrower, Errors errors) {
+		if (null != errors && errors.getErrorCount() > 0) {
+            return "new_borrower";
+        }else {
+			borrowerService.save(borrower);
+			System.out.println(borrower);
+			return "redirect:/login";
+		}	
 	}
 }

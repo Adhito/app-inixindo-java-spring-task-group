@@ -1,5 +1,8 @@
 package com.inixindo.library.model;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 
 import lombok.Data;
@@ -23,11 +27,12 @@ public class Books {
 	@ManyToOne
 	@JoinColumn(name = "author_id")
 	public  Authors authors;
-//	@OneToOne
-//	@JoinColumn(name ="copy_id")
-//	public Copies copies;
+
 	public int no_of_copies;
 	@OneToOne
 	@JoinColumn(name ="publisher_id")
 	public Publisher publisher;
+	
+	@OneToMany(mappedBy = "books", cascade = CascadeType.ALL)
+	private List<Loans> loans;
 }
