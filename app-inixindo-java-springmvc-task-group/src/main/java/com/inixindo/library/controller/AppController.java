@@ -2,6 +2,8 @@ package com.inixindo.library.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 //import org.springframework.stereotype.Service;
@@ -141,4 +143,28 @@ public class AppController {
 			return "redirect:/login";
 		}	
 	}
+	
+	@RequestMapping("/book_borrower")
+	public String getBookPageBorrower(Model model) {
+		return "all_book_borrower";
+
+	}
+	
+	@RequestMapping("/book_admin")
+	public String getBookPageAdmin(Model model) {
+		return "all_book_admin";
+
+	}
+	
+//	@Controller
+//	public class DefaultController {
+//	    @RequestMapping("/default")
+//	    public String defaultAfterLogin(HttpServletRequest request) {
+//	    	System.out.println(request.isUserInRole("LIBRARIAN"));
+//	        if (request.isUserInRole("LIBRARIAN")) {
+//	            return "redirect:/book/";
+//	        }
+//	        return "redirect:/book_borrower/";
+//	    }
+//	}
 }
