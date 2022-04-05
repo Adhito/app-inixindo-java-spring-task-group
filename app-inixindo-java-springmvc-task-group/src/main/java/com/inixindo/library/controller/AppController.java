@@ -74,9 +74,23 @@ public class AppController {
 	}
 	
 	@RequestMapping(value = "/save_publisher", method = RequestMethod.POST)
-	public String savePublisher(@ModelAttribute("publisher") Publisher publisher, Errors errors) {
+	public String savePublisher(@ModelAttribute("publisher") Publisher publisher) {
 			publisherService.save(publisher);
 			System.out.println(publisher);
+			return "redirect:/book";	
+	}
+	
+	@RequestMapping("/book/newAuthor")
+	public String newAuthorPage(Model model) {
+		Authors authors = new Authors();
+		model.addAttribute("authors", authors);
+		return "new_author";
+	}
+	
+	@RequestMapping(value = "/save_author", method = RequestMethod.POST)
+	public String saveAuthor(@ModelAttribute("publisher") Authors authors) {
+			authorService.save(authors);
+			System.out.println(authors);
 			return "redirect:/book";	
 	}
 	
