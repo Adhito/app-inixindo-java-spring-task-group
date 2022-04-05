@@ -66,6 +66,20 @@ public class AppController {
 			return "redirect:/book";	
 	}
 	
+	@RequestMapping("/book/newPublisher")
+	public String newPublisherPage(Model model) {
+		Publisher publisher = new Publisher();
+		model.addAttribute("publisher", publisher);
+		return "new_publisher";
+	}
+	
+	@RequestMapping(value = "/save_publisher", method = RequestMethod.POST)
+	public String savePublisher(@ModelAttribute("publisher") Publisher publisher, Errors errors) {
+			publisherService.save(publisher);
+			System.out.println(publisher);
+			return "redirect:/book";	
+	}
+	
 	@RequestMapping("/delete_book/{id}")
 	public String deleteProduct(@PathVariable(name = "id") int id) {
 		System.out.println(id);
