@@ -14,8 +14,9 @@ public class Authors {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private int AuthorID;
-	@Column(nullable = false)
-	private int BookID;
+	/*
+	 * @Column(nullable = false) private int BookID;
+	 */
 	@Column( nullable = false)
 	private String AuthorName;
 }

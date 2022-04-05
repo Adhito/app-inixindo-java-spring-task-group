@@ -14,8 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inixindo.library.model.Authors;
 import com.inixindo.library.model.Books;
+import com.inixindo.library.model.Publisher;
+import com.inixindo.library.services.AuthorService;
 import com.inixindo.library.services.BookService;
+import com.inixindo.library.services.PublisherService;
 
 
 @Controller
@@ -23,6 +27,10 @@ public class AppController {
 
 	@Autowired
 	BookService bookService;
+	@Autowired
+	PublisherService publisherService;
+	@Autowired
+	AuthorService authorService;
 
 	@RequestMapping("/")
 	public String viewHomePage(Model model) {
@@ -41,20 +49,21 @@ public class AppController {
 	
 	@RequestMapping("/book/new")
 	public String newBookPage(Model model) {
+		List<Publisher> listPublishers = publisherService.listAll();
+		List<Authors> listAuthors = authorService.listAll();
+		System.out.println(listPublishers);
 		Books books = new Books();
 		model.addAttribute("books", books);
+		model.addAttribute("publishers", listPublishers);
+		model.addAttribute("authors", listAuthors);
 		return "new_book";
 	}
 	
 	@RequestMapping(value = "/save_book", method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("books") Books books, Errors errors) {
-		if (null != errors && errors.getErrorCount() > 0) {
-            return "new_book";
-        }else {
 			bookService.save(books);
 			System.out.println(books);
-			return "redirect:/book";
-		}	
+			return "redirect:/book";	
 	}
 	
 	@RequestMapping("/delete_book/{id}")
@@ -67,8 +76,12 @@ public class AppController {
 	@RequestMapping("/edit_book/{id}")
 	public ModelAndView showEditProductForm(@PathVariable(name = "id") int id) {
 		ModelAndView mav = new ModelAndView("edit_book");
+		List<Publisher> listPublishers = publisherService.listAll();
+		List<Authors> listAuthors = authorService.listAll();
 		Books books = bookService.get(id);
 		mav.addObject("books", books);
+		mav.addObject("publishers", listPublishers);
+		mav.addObject("authors", listAuthors);
 		return mav;
 	}
 }

@@ -68,6 +68,8 @@
 										<th scope="col">#</th>
 										<th scope="col">Publisher Name</th>
 										<th scope="col">Book Title</th>
+										<th scope="col">Author</th>
+										<th scope="col">Copy Id</th>
 										<th scope="col">Action</th>
 
 									</tr>
@@ -76,8 +78,10 @@
 									<tr th:each="books : ${listBooks}">
 
 										<td th:text="${books.BookID}">Book ID</td>
-										<td th:text="${books.PublisherName}">Publisher Name</td>
+										<td th:text="${books.publisher.name}">Publisher Name</td>
 										<td th:text="${books.title}">Book Title</td>
+										<td th:text="${books.authors.AuthorName}">author id</td>
+										<td th:text="${books.no_of_copies}">copy id</td>
 										<!-- <td><a th:href="@{'/edit_book/' + ${books.BookID}}"
                                             class="btn btn-success">Update</a> <a
                                             th:href="@{'/delete_book/' + ${books.BookID}}"

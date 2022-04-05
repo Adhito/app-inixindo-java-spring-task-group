@@ -5,6 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 import lombok.Data;
 
@@ -12,10 +15,19 @@ import lombok.Data;
 @Entity(name = "books")
 public class Books {
 	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private int BookID;
-	@Column( nullable = false)
-	private String title;
-	@Column( nullable = false)
-	private String PublisherName;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(nullable = false)
+	public int BookID;
+	@Column(nullable = false)
+	public  String title;
+	@ManyToOne
+	@JoinColumn(name = "author_id")
+	public  Authors authors;
+//	@OneToOne
+//	@JoinColumn(name ="copy_id")
+//	public Copies copies;
+	public int no_of_copies;
+	@OneToOne
+	@JoinColumn(name ="publisher_id")
+	public Publisher publisher;
 }

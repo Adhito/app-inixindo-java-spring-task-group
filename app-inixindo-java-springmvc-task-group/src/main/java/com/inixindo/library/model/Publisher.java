@@ -13,11 +13,11 @@ import lombok.Data;
 public class Publisher {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long PublisherID;
+	public int PublisherID;
 	@Column(nullable = false)
-	private String Name;
+	public String Name;
 	@Column(nullable = false)
-	private String Address;
+	public String Address;
 	@Column(nullable = false)
-	private String Phone;
+	public String Phone;
 }
