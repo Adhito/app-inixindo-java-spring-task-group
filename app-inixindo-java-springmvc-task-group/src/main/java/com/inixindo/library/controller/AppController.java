@@ -1,8 +1,15 @@
 package com.inixindo.library.controller;
 
+import java.util.Collection;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 //import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -15,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.inixindo.library.config.CustomAccountDetails;
 import com.inixindo.library.model.Authors;
 import com.inixindo.library.model.Books;
 import com.inixindo.library.model.Borrower;
@@ -50,6 +58,43 @@ public class AppController {
 	@PostMapping("/login")
 	public String masuk() {
 		return "login";
+	}
+	
+	@RequestMapping("/default")
+	public String RoleController(Authentication authentication) {
+		Collection<? extends GrantedAuthority> authorities;
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		authorities = auth.getAuthorities();
+		String myUsername = authorities.toArray()[0].toString();
+		String admin = "LIBRARIAN";
+
+		System.out.println(authorities.toArray()[0].toString());
+		if(myUsername.equals(admin)) {
+			return "redirect:/book";
+		}else {
+			return "redirect:/user_dashboard";
+		}
+
+	}
+	
+	@RequestMapping("/user_dashboard")
+	public String userDashboard(Model model, Authentication authentication) {
+		/* System.out.println(borrower.getCardNo()); */
+		/*
+		 * Object principal =
+		 * SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		 * CustomAccountDetails customAccountDetails = (CustomAccountDetails)
+		 * authentication.getPrincipal();
+		 * 
+		 * if (principal instanceof Borrower) { String username =
+		 * ((Borrower)principal).getUsername(); model.addAttribute("username",
+		 * username); System.out.println("1 "+customAccountDetails); } else { String
+		 * username = principal.getClass().toString(); model.addAttribute("username",
+		 * username); System.out.println("2 "+customAccountDetails); }
+		 */
+	
+		return "user_dashboard";
+
 	}
 	
 

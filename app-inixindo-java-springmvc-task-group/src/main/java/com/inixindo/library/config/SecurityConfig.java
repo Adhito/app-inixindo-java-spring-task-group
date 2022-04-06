@@ -16,7 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
-//@EnableWebSecurity
+@EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Autowired 
@@ -56,14 +56,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		
 		http
 		.authorizeRequests()
-		.antMatchers("/register", "/save_borrower").permitAll()
-		.antMatchers("/book","/loans").hasAuthority("BORROWER")
+		.antMatchers("/register","/save_borrower", "/").permitAll()
+		.antMatchers("/book","/loans").hasAuthority("LIBRARIAN")
+		.antMatchers("/user_dashboard").hasAuthority("BORROWER")
 		.anyRequest()
 		.authenticated()
 		.and()
 		.formLogin()
 		.loginPage("/login")
-		.defaultSuccessUrl("/book")
+		.defaultSuccessUrl("/default")
 		.permitAll()
 		.and()
         .logout().invalidateHttpSession(true)

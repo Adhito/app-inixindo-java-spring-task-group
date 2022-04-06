@@ -37,6 +37,10 @@ public class CustomAccountDetails implements UserDetails{
 		// TODO Auto-generated method stub
 		return borrower.getUsername();
 	}
+	
+	public String getRole() {
+		return borrower.getRole();
+	}
 
 	@Override
 	public boolean isAccountNonExpired() {

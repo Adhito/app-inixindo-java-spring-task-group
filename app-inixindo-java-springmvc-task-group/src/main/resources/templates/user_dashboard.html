@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Borrower Dashboard</title>
+</head>
+<body>
+<form class="form-inline my-2 my-lg-0" th:action="@{/logout}"
+					method="get">
+					<button class="btn btn-outline-danger my-2 my-sm-0" type="submit">Logout</button>
+				</form>
+				
+				<div class="form-group label-floating">
+    <label>card_no</label> 
+    <input type="text" name="card_no" 
+    th:value="${username}"/>
+</div>
+				
+</body>
+</html>
