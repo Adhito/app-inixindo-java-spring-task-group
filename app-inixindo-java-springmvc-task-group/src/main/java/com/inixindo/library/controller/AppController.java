@@ -1,7 +1,10 @@
 package com.inixindo.library.controller;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,12 +31,13 @@ import com.inixindo.library.model.Books;
 import com.inixindo.library.model.Borrower;
 import com.inixindo.library.model.Loans;
 import com.inixindo.library.model.Publisher;
+import com.inixindo.library.repository.BorrowerRepository;
+import com.inixindo.library.repository.LoansRepository;
 import com.inixindo.library.services.AuthorService;
 import com.inixindo.library.services.BookService;
 import com.inixindo.library.services.BorrowerService;
 import com.inixindo.library.services.LoansService;
 import com.inixindo.library.services.PublisherService;
-
 
 @Controller
 public class AppController {
@@ -48,18 +52,22 @@ public class AppController {
 	BorrowerService borrowerService;
 	@Autowired
 	LoansService loansService;
+	@Autowired
+	BorrowerRepository borrowerRepository;
+	@Autowired
+	LoansRepository loansRepository;
 
 	@GetMapping("/login")
 	public String login(Model model) {
 		model.addAttribute("borrower", new Borrower());
 		return "login";
 	}
-	
+
 	@PostMapping("/login")
 	public String masuk() {
 		return "login";
 	}
-	
+
 	@RequestMapping("/default")
 	public String RoleController(Authentication authentication) {
 		Collection<? extends GrantedAuthority> authorities;
@@ -68,35 +76,38 @@ public class AppController {
 		String myUsername = authorities.toArray()[0].toString();
 		String admin = "LIBRARIAN";
 
-		System.out.println(authorities.toArray()[0].toString());
-		if(myUsername.equals(admin)) {
+		if (myUsername.equals(admin)) {
 			return "redirect:/book";
-		}else {
+		} else {
 			return "redirect:/user_dashboard";
 		}
 
 	}
-	
+
 	@RequestMapping("/user_dashboard")
 	public String userDashboard(Model model, Authentication authentication) {
-		/* System.out.println(borrower.getCardNo()); */
-		/*
-		 * Object principal =
-		 * SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		 * CustomAccountDetails customAccountDetails = (CustomAccountDetails)
-		 * authentication.getPrincipal();
-		 * 
-		 * if (principal instanceof Borrower) { String username =
-		 * ((Borrower)principal).getUsername(); model.addAttribute("username",
-		 * username); System.out.println("1 "+customAccountDetails); } else { String
-		 * username = principal.getClass().toString(); model.addAttribute("username",
-		 * username); System.out.println("2 "+customAccountDetails); }
-		 */
+
+
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(currentUsername);
+		
+		Borrower borrower = borrowerRepository.findByUsername(currentUsername);
+
+		List<String> listBorrowedBook = borrowerRepository.findBorrowerBookByUsername(currentUsername);
+		listBorrowedBook.toArray();
+		
+		int cardNo = borrower.getCardNo();
+		
+		List<Loans> listLoans = loansService.getLoansByCardNo(cardNo);
 	
+		System.out.println(listLoans); 
+		
+		model.addAttribute("listLoans", listLoans);
+
+
 		return "user_dashboard";
 
 	}
-	
 
 	@RequestMapping("/book")
 	public String getBookPage(Model model) {
@@ -106,7 +117,7 @@ public class AppController {
 		return "all_book";
 
 	}
-	
+
 	@RequestMapping("/loans")
 	public String getLoansPage(Model model) {
 		List<Loans> listLoans = loansService.listAll();
@@ -115,7 +126,7 @@ public class AppController {
 		return "list_loans";
 
 	}
-	
+
 	@RequestMapping("/book/new")
 	public String newBookPage(Model model) {
 		List<Publisher> listPublishers = publisherService.listAll();
@@ -127,20 +138,20 @@ public class AppController {
 		model.addAttribute("authors", listAuthors);
 		return "new_book";
 	}
-	
+
 	@RequestMapping(value = "/save_book", method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("books") Books books, Errors errors) {
-			bookService.save(books);
-			System.out.println(books);
-			return "redirect:/book";	
+		bookService.save(books);
+		System.out.println(books);
+		return "redirect:/book";
 	}
-	
+
 	@RequestMapping("/loans/new")
 	public String newLoansPage(Model model) {
 		List<Loans> listLoans = loansService.listAll();
 		List<Books> listBooks = bookService.listAll();
 		List<Borrower> listBorrower = borrowerService.listAll();
-		
+
 		System.out.println(listBorrower);
 		Loans loans = new Loans();
 		model.addAttribute("loans", loans);
@@ -148,49 +159,49 @@ public class AppController {
 		model.addAttribute("borrowers", listBorrower);
 		return "new_loan";
 	}
-	
+
 	@RequestMapping(value = "/save_loan", method = RequestMethod.POST)
 	public String saveLoan(@ModelAttribute("loans") Loans loans, Errors errors) {
-			loansService.save(loans);
-			System.out.println(loans);
-			return "redirect:/loans";	
+		loansService.save(loans);
+		System.out.println(loans);
+		return "redirect:/loans";
 	}
-	
+
 	@RequestMapping("/book/newPublisher")
 	public String newPublisherPage(Model model) {
 		Publisher publisher = new Publisher();
 		model.addAttribute("publisher", publisher);
 		return "new_publisher";
 	}
-	
+
 	@RequestMapping(value = "/save_publisher", method = RequestMethod.POST)
 	public String savePublisher(@ModelAttribute("publisher") Publisher publisher) {
-			publisherService.save(publisher);
-			System.out.println(publisher);
-			return "redirect:/book";	
+		publisherService.save(publisher);
+		System.out.println(publisher);
+		return "redirect:/book";
 	}
-	
+
 	@RequestMapping("/book/newAuthor")
 	public String newAuthorPage(Model model) {
 		Authors authors = new Authors();
 		model.addAttribute("authors", authors);
 		return "new_author";
 	}
-	
+
 	@RequestMapping(value = "/save_author", method = RequestMethod.POST)
 	public String saveAuthor(@ModelAttribute("publisher") Authors authors) {
-			authorService.save(authors);
-			System.out.println(authors);
-			return "redirect:/book";	
+		authorService.save(authors);
+		System.out.println(authors);
+		return "redirect:/book";
 	}
-	
+
 	@RequestMapping("/delete_book/{id}")
 	public String deleteProduct(@PathVariable(name = "id") int id) {
 		System.out.println(id);
 		bookService.delete(id);
 		return "redirect:/book";
 	}
-	
+
 	@RequestMapping("/edit_book/{id}")
 	public ModelAndView showEditProductForm(@PathVariable(name = "id") int id) {
 		ModelAndView mav = new ModelAndView("edit_book");
@@ -202,22 +213,22 @@ public class AppController {
 		mav.addObject("authors", listAuthors);
 		return mav;
 	}
-	
+
 	@RequestMapping("/register")
 	public String newBorrowerPage(Model model) {
 		Borrower borrower = new Borrower();
 		model.addAttribute("borrower", borrower);
 		return "new_borrower";
 	}
-	
+
 	@RequestMapping(value = "/save_borrower", method = RequestMethod.POST)
 	public String saveProduct(@ModelAttribute("borrower") Borrower borrower, Errors errors) {
 		if (null != errors && errors.getErrorCount() > 0) {
-            return "new_borrower";
-        }else {
+			return "new_borrower";
+		} else {
 			borrowerService.save(borrower);
 			System.out.println(borrower);
 			return "redirect:/login";
-		}	
+		}
 	}
 }

@@ -33,4 +33,16 @@ public class BorrowerService {
 		// TODO Auto-generated method stub
 		borrowerRepository.deleteById(id);
 	}
+	
+	public Borrower findByUsername(String name){
+		return borrowerRepository.findByUsername(name);
+	}
+	
+	
+	public List<String> listBorrowedBook(String name) {
+		// TODO Auto-generated method stub
+		return borrowerRepository.findBorrowerBookByUsername(name);
+	}
+	
+	
 }

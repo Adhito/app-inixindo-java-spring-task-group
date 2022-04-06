@@ -28,7 +28,12 @@ public class LoansService {
 		// TODO Auto-generated method stub
 		return loansRepository.findById(id).get();
 	}
-
+	
+	
+	public List<Loans> getLoansByCardNo(int card_no){
+		return loansRepository.findLoansByCardNumber(card_no);
+	}
+	
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		loansRepository.deleteById(id);
