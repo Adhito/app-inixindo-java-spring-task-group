@@ -92,9 +92,6 @@ public class AppController {
 		System.out.println(currentUsername);
 		
 		Borrower borrower = borrowerRepository.findByUsername(currentUsername);
-
-		List<String> listBorrowedBook = borrowerRepository.findBorrowerBookByUsername(currentUsername);
-		listBorrowedBook.toArray();
 		
 		int cardNo = borrower.getCardNo();
 		
@@ -102,6 +99,7 @@ public class AppController {
 	
 		System.out.println(listLoans); 
 		
+		model.addAttribute("username", currentUsername);
 		model.addAttribute("listLoans", listLoans);
 
 
@@ -111,12 +109,26 @@ public class AppController {
 
 	@RequestMapping("/book")
 	public String getBookPage(Model model) {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(currentUsername);
+		
 		List<Books> listBooks = bookService.listAll();
+		model.addAttribute("username", currentUsername);
 		model.addAttribute("listBooks", listBooks);
 		System.out.println(listBooks);
 		return "all_book";
 
 	}
+	
+	@RequestMapping("/all_book_user")
+	public String getBookPageUser(Model model) {
+		List<Books> listBooks = bookService.listAll();
+		model.addAttribute("listBooks", listBooks);
+		System.out.println(listBooks);
+		return "all_book_user";
+
+	}
+
 
 	@RequestMapping("/loans")
 	public String getLoansPage(Model model) {
