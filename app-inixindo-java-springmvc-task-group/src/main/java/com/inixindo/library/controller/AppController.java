@@ -2,8 +2,6 @@ package com.inixindo.library.controller;
 
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 //import org.springframework.stereotype.Service;
@@ -20,10 +18,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.inixindo.library.model.Authors;
 import com.inixindo.library.model.Books;
 import com.inixindo.library.model.Borrower;
+import com.inixindo.library.model.Loans;
 import com.inixindo.library.model.Publisher;
 import com.inixindo.library.services.AuthorService;
 import com.inixindo.library.services.BookService;
 import com.inixindo.library.services.BorrowerService;
+import com.inixindo.library.services.LoansService;
 import com.inixindo.library.services.PublisherService;
 
 
@@ -38,6 +38,8 @@ public class AppController {
 	AuthorService authorService;
 	@Autowired
 	BorrowerService borrowerService;
+	@Autowired
+	LoansService loansService;
 
 	@GetMapping("/login")
 	public String login(Model model) {
@@ -60,6 +62,15 @@ public class AppController {
 
 	}
 	
+	@RequestMapping("/loans")
+	public String getLoansPage(Model model) {
+		List<Loans> listLoans = loansService.listAll();
+		model.addAttribute("listLoans", listLoans);
+		System.out.println(listLoans);
+		return "list_loans";
+
+	}
+	
 	@RequestMapping("/book/new")
 	public String newBookPage(Model model) {
 		List<Publisher> listPublishers = publisherService.listAll();
@@ -77,6 +88,27 @@ public class AppController {
 			bookService.save(books);
 			System.out.println(books);
 			return "redirect:/book";	
+	}
+	
+	@RequestMapping("/loans/new")
+	public String newLoansPage(Model model) {
+		List<Loans> listLoans = loansService.listAll();
+		List<Books> listBooks = bookService.listAll();
+		List<Borrower> listBorrower = borrowerService.listAll();
+		
+		System.out.println(listBorrower);
+		Loans loans = new Loans();
+		model.addAttribute("loans", loans);
+		model.addAttribute("books", listBooks);
+		model.addAttribute("borrowers", listBorrower);
+		return "new_loan";
+	}
+	
+	@RequestMapping(value = "/save_loan", method = RequestMethod.POST)
+	public String saveLoan(@ModelAttribute("loans") Loans loans, Errors errors) {
+			loansService.save(loans);
+			System.out.println(loans);
+			return "redirect:/loans";	
 	}
 	
 	@RequestMapping("/book/newPublisher")
@@ -143,28 +175,4 @@ public class AppController {
 			return "redirect:/login";
 		}	
 	}
-	
-	@RequestMapping("/book_borrower")
-	public String getBookPageBorrower(Model model) {
-		return "all_book_borrower";
-
-	}
-	
-	@RequestMapping("/book_admin")
-	public String getBookPageAdmin(Model model) {
-		return "all_book_admin";
-
-	}
-	
-//	@Controller
-//	public class DefaultController {
-//	    @RequestMapping("/default")
-//	    public String defaultAfterLogin(HttpServletRequest request) {
-//	    	System.out.println(request.isUserInRole("LIBRARIAN"));
-//	        if (request.isUserInRole("LIBRARIAN")) {
-//	            return "redirect:/book/";
-//	        }
-//	        return "redirect:/book_borrower/";
-//	    }
-//	}
 }

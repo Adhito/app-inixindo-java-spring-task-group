@@ -19,29 +19,29 @@ import lombok.Data;
 public class Borrower {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)	
-	private int cardNo;
+	public int cardNo;
 	
 	@Column(nullable = false)
-	private String Name;
+	public String Name;
 	
 	@Column(nullable = false)
-	private String Address;
+	public String Address;
 	
 	@Column(nullable = false)
-	private String Phone;
+	public String Phone;
 	
 	@Column(nullable = false)
-	private String username;
+	public String username;
 	
 	@Column(nullable = false)
-	private String role;
+	public String role;
 	
 	@Column(nullable = false)
-	private String password;
+	public String password;
 	
-	@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
-	private List<Loans> loans;
-	
+//	@OneToMany(mappedBy = "borrower", cascade = CascadeType.ALL)
+//	private List<Loans> loans;
+//	
 	
 	public void setPassword(String password) {
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

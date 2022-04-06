@@ -32,7 +32,7 @@ public class Books {
 	@OneToOne
 	@JoinColumn(name ="publisher_id")
 	public Publisher publisher;
-	
-	@OneToMany(mappedBy = "books", cascade = CascadeType.ALL)
-	private List<Loans> loans;
+//	
+//	@OneToMany(mappedBy = "books", cascade = CascadeType.ALL)
+//	public List<Loans> loans;
 }

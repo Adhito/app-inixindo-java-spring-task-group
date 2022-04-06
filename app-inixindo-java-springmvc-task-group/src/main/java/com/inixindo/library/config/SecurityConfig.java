@@ -54,56 +54,58 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //        .and().csrf().disable();
 		
 		
-//		http
-//		.authorizeRequests()
-//		.antMatchers("/register", "/save_borrower").permitAll()
-//		.antMatchers("/book").hasAuthority("BORROWER")
-//		.anyRequest()
-//		.authenticated()
-//		.and()
-//		.formLogin()
-//		.loginPage("/login")
-//		.defaultSuccessUrl("/book")
-//		.permitAll()
-//		.and()
-//        .logout().invalidateHttpSession(true)
-//		.clearAuthentication(true)
-//		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-//		.logoutSuccessUrl("/login")
-//        .permitAll()
-//        .and().csrf().disable();
-//	}
-        String loginPage = "/login";
-        String logoutPage = "/logout";
-        
-        http.authorizeRequests()
-        
-        // All
-        .antMatchers("/register", "/save_borrower").permitAll()
-        
-        // Borrower
-        .antMatchers("/").hasAnyAuthority("LIBRARIAN", "BORROWER")
-        .antMatchers("/book_borrower/**").hasAnyAuthority("LIBRARIAN", "BORROWER")
-        
-        // Librarian
-        .antMatchers("/book/**").hasAnyAuthority("LIBRARIAN")        
-        .antMatchers("/edit_book/**").hasAnyAuthority("LIBRARIAN")
-        .antMatchers("/delete_book/**").hasAuthority("LIBRARIAN")
-        .anyRequest().authenticated()
-        .and()
-        .formLogin().permitAll()
-        .loginPage("/login")
-        .defaultSuccessUrl("/book")
-//        .defaultSuccessUrl("/default")
-        .and()
-        .logout().permitAll()
-        .and()
-        .exceptionHandling().accessDeniedPage("/403")
-        .and().logout()
-        .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
-        .logoutSuccessUrl(loginPage).and().exceptionHandling();
-        ;
+		http
+		.authorizeRequests()
+		.antMatchers("/register", "/save_borrower").permitAll()
+		.antMatchers("/book","/loans").hasAuthority("BORROWER")
+		.anyRequest()
+		.authenticated()
+		.and()
+		.formLogin()
+		.loginPage("/login")
+		.defaultSuccessUrl("/book")
+		.permitAll()
+		.and()
+        .logout().invalidateHttpSession(true)
+		.clearAuthentication(true)
+		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+		.logoutSuccessUrl("/login")
+        .permitAll()
+        .and().csrf().disable();
 	}
+		
+		
+//        String loginPage = "/login";
+//        String logoutPage = "/logout";
+//        
+//        http.authorizeRequests()
+//        
+//        // All
+//        .antMatchers("/register", "/save_borrower").permitAll()
+//        
+//        // Borrower
+//        .antMatchers("/").hasAnyAuthority("LIBRARIAN", "BORROWER")
+//        .antMatchers("/book_borrower/**").hasAnyAuthority("LIBRARIAN", "BORROWER")
+//        
+//        // Librarian
+//        .antMatchers("/book/**").hasAnyAuthority("LIBRARIAN")        
+//        .antMatchers("/edit_book/**").hasAnyAuthority("LIBRARIAN")
+//        .antMatchers("/delete_book/**").hasAuthority("LIBRARIAN")
+//        .anyRequest().authenticated()
+//        .and()
+//        .formLogin().permitAll()
+//        .loginPage("/login")
+//        .defaultSuccessUrl("/book")
+////        .defaultSuccessUrl("/default")
+//        .and()
+//        .logout().permitAll()
+//        .and()
+//        .exceptionHandling().accessDeniedPage("/403")
+//        .and().logout()
+//        .logoutRequestMatcher(new AntPathRequestMatcher(logoutPage))
+//        .logoutSuccessUrl(loginPage).and().exceptionHandling();
+//        ;
+//	}
 	
 }
 
