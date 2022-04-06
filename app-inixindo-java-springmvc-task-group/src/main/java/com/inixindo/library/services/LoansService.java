@@ -34,6 +34,19 @@ public class LoansService {
 		return loansRepository.findLoansByCardNumber(card_no);
 	}
 	
+	public List<Loans> getHistoryLoan(int card_no){
+		return loansRepository.findHistoryLoan(card_no);
+	}
+	
+	public List<Loans> getLoans(){
+		return loansRepository.findLoans();
+	}
+	
+	public void bookReturned(int loan_id) {
+		loansRepository.bookReturned(loan_id);
+		return ;
+	}
+	
 	public void delete(int id) {
 		// TODO Auto-generated method stub
 		loansRepository.deleteById(id);

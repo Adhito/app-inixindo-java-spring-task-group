@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.inixindo.library.model.Copies;
+import com.inixindo.library.model.LoanHistory;
 
-public interface CopiesRepository extends JpaRepository<Copies, Integer>{
+public interface LoanHistoryRepository extends JpaRepository<LoanHistory, Integer>{
 	//List<Copies> findAll();
 }

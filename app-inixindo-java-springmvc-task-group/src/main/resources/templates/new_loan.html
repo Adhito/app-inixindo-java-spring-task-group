@@ -95,7 +95,9 @@
 								<label for="PublisherName">Due Date </label>
 								<input class="form-control" type="date" id="duedate" name="duedate" th:field="*{DueData}" required>
 							</div>
+							<input type="hidden" name="status" value="borrowed" />
 							<button type="submit" class="btn btn-primary">Submit</button>
+							<a href="/loans" class="btn btn-danger" > Cancel </a>
 					</div>
 					</form>
 				</div>

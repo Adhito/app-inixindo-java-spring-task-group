@@ -80,6 +80,7 @@
 										<th scope="col">Borrowed By</th>
 										<th scope="col">Date Out</th>
 										<th scope="col">Due Date</th>
+										<th scope="col">Return</th>
 
 									</tr>
 								</thead>
@@ -91,7 +92,14 @@
 										<td th:text="${loan.borrower.username}">card no</td>
 										<td th:text="${loan.DateOut}">Date Out</td>
 										<td th:text="${loan.DueData}">Due Date</td>
-										<td></td>
+										<td>
+										<a
+											th:href="@{'return_book/' + ${loan.books.BookID}} + '/' + ${loan.LoansID}"
+											class="btn btn-danger btn-sm py-1 "
+											th:data-confirm-delete="|Are you sure you want to return ${loan.books.title}?|"
+											onclick="if (!confirm(this.getAttribute('data-confirm-delete'))) return false">
+												Return </a>
+										</td>
 
 									</tr>
 								</tbody>

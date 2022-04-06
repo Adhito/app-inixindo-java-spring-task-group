@@ -30,6 +30,20 @@ public class BookService {
 		// TODO Auto-generated method stub
 		return bookRepository.findById(id).get();
 	}
+	
+	public List<Books> getBookAvailable() {
+		return bookRepository.getAvailableBook();
+	}
+	
+	public void minStock(int id) {
+		bookRepository.minStock(id);
+		return ;
+	}
+	
+	public void returnStock(int id) {
+		bookRepository.returnStock(id);
+		return ;
+	}
 
 	public void delete(int id) {
 		// TODO Auto-generated method stub

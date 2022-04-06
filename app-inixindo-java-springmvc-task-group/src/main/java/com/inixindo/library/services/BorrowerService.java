@@ -44,5 +44,10 @@ public class BorrowerService {
 		return borrowerRepository.findBorrowerBookByUsername(name);
 	}
 	
+	public List<Borrower> getBorrowerNewBook() {
+		// TODO Auto-generated method stub
+		return borrowerRepository.findBorrower();
+	}
+	
 	
 }

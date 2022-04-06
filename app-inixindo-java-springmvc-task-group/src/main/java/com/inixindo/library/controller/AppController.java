@@ -128,22 +128,51 @@ public class AppController {
 		return "all_book_user";
 
 	}
+	
+	@RequestMapping("/user_history")
+	public String getBookUserHistory(Model model) {
+		String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
+		System.out.println(currentUsername);
+		
+		Borrower borrower = borrowerRepository.findByUsername(currentUsername);
+		
+		int cardNo = borrower.getCardNo();
+		List<Loans> listCompletedLoans = loansService.getHistoryLoan(cardNo);
+		model.addAttribute("username", currentUsername);
+		model.addAttribute("listLoans", listCompletedLoans);
+		System.out.println(listCompletedLoans);
+		return "user_history";
+
+	}
 
 
 	@RequestMapping("/loans")
 	public String getLoansPage(Model model) {
-		List<Loans> listLoans = loansService.listAll();
+		List<Loans> listLoans = loansService.getLoans();
 		model.addAttribute("listLoans", listLoans);
 		System.out.println(listLoans);
 		return "list_loans";
 
 	}
+	
+	@RequestMapping("/return_book/{book_id}/{loan_id}")
+	public String returnBook(@PathVariable(name = "book_id") int book_id, @PathVariable(name = "loan_id") int loan_id) {
+		/* System.out.println(id); */
+		System.out.println(book_id);
+		System.out.println(loan_id);
+		bookService.returnStock(book_id);
+		loansService.bookReturned(loan_id);
+		return "redirect:/loans";
+	}
+	
+	
 
 	@RequestMapping("/book/new")
 	public String newBookPage(Model model) {
 		List<Publisher> listPublishers = publisherService.listAll();
 		List<Authors> listAuthors = authorService.listAll();
 		System.out.println(listPublishers);
+		
 		Books books = new Books();
 		model.addAttribute("books", books);
 		model.addAttribute("publishers", listPublishers);
@@ -161,8 +190,8 @@ public class AppController {
 	@RequestMapping("/loans/new")
 	public String newLoansPage(Model model) {
 		List<Loans> listLoans = loansService.listAll();
-		List<Books> listBooks = bookService.listAll();
-		List<Borrower> listBorrower = borrowerService.listAll();
+		List<Books> listBooks = bookService.getBookAvailable();
+		List<Borrower> listBorrower = borrowerService.getBorrowerNewBook();
 
 		System.out.println(listBorrower);
 		Loans loans = new Loans();
@@ -174,6 +203,8 @@ public class AppController {
 
 	@RequestMapping(value = "/save_loan", method = RequestMethod.POST)
 	public String saveLoan(@ModelAttribute("loans") Loans loans, Errors errors) {
+		int book_id = loans.books.getBookID();
+		bookService.minStock(book_id);
 		loansService.save(loans);
 		System.out.println(loans);
 		return "redirect:/loans";

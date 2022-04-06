@@ -23,6 +23,11 @@ public interface BorrowerRepository extends JpaRepository<Borrower, Integer>{
 			+ "WHERE br.name = ?1", nativeQuery = true)
 	List<String> findBorrowerBookByUsername(String name);
 
+@Modifying
+@Query
+	(value = "select * from borrower where username != 'admin'", nativeQuery = true)
+	List<Borrower> findBorrower();
+
 
 }
 
