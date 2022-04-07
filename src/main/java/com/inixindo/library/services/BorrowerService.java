@@ -48,6 +48,4 @@ public class BorrowerService {
 		// TODO Auto-generated method stub
 		return borrowerRepository.findBorrower();
 	}
-	
-	
 }
